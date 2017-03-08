@@ -6,6 +6,7 @@ COMPATIBLE_MACHINE_x86 = "(.*)"
 COMPATIBLE_MACHINE_x86-64 = "(.*)"
 COMPATIBLE_MACHINE_armv6 = "(.*)"
 COMPATIBLE_MACHINE_armv7a = "(.*)"
+COMPATIBLE_MACHINE_armv7ve = "(.*)"
 
 # The build type defaults to Release. If you want a Debug build, you can set
 # the variable CHROMIUM_BUILD_TYPE to "Debug" in your conf/local.conf file.
@@ -14,6 +15,8 @@ CHROMIUM_BUILD_TYPE ??= "Release"
 inherit gettext pythonnative
 
 ARMFPABI_armv7a = "${@bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', 'arm_float_abi=hard', 'arm_float_abi=softfp', d)}"
+ARMFPABI_armv7ve = "${@bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', 'arm_float_abi=hard', 'arm_float_abi=softfp', d)}"
+TUNE_CCARGS_remove_armv7ve = "-mcpu=cortex-a7"
 GYP_DEFINES += "${ARMFPABI} release_extra_cflags='-Wno-error=unused-local-typedefs' sysroot=''"
 GYP_DEFINES_append_x86 = " generate_character_data=0"
 
